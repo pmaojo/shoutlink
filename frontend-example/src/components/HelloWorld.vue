@@ -16,16 +16,16 @@
             label="Link to shouten"
           ></v-text-field></v-flex><v-flex x2 class="pt-3">
 
-          <v-btn flat color="blue">Go on!</v-btn></v-flex></v-layout>
+          <v-btn flat color="blue" @click="getshouten(url)" >Go on!</v-btn></v-flex></v-layout>
         </v-form>
         </v-card-text>
         <v-card-title primary-title>
           <div>
-            <div>{{shoutenURL}}</div>
+            <div>{{ shout }}</div>
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-btn flat color="orange">Clear</v-btn>
+          <v-btn flat color="orange" @click="restart()">Clear</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -35,20 +35,34 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  data: () => (
-    {
-      apishouten: 'http://shoutlink.herokuapp.com/api/create',
-      apiopen: 'http://shoutlink.herokuapp.com/api/open',
-      url: "",
-      shout: null,
-    }),
+  methods: {
+    restart() {
+      location.reload();
+    },
+    getshouten() {
+      axios.get(this.shoutenURL)
+        .then((response) => {
+          this.shout = response;
+        });
+    },
+  },
+  data: () => ({
+    apishouten: 'http://shoutlink.herokuapp.com/api/create',
+    apiopen: 'http://shoutlink.herokuapp.com/api/open',
+    url: '',
+    shout: '',
+  }),
   computed:
     {
-      shoutenURL()
-        { return this.apishouten + '/' + this.url; },
-      openURL()
-        { return this.apiopen + '/' + this.shout;; },
+      shoutenURL() {
+        return this.apishouten.concat('?url=', this.url);
+      },
+      openURL() {
+        return this.concat('/', this.shout);
+      },
     },
 };
 </script>
