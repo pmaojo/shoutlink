@@ -19,17 +19,16 @@
           <v-btn flat color="blue" @click="getshouten(url)" >Go on!</v-btn></v-flex></v-layout>
         </v-form>
         </v-card-text>
-        <v-card-title primary-title>
-          <div>
-            <div>id: {{ shout }}</div>
-          </div>
-        </v-card-title>
                 <v-card-title primary-title>
           <div>
-            <div>url: {{ url }}</div>
+            <div v-if="url" >Url: {{ url }}</div>
           </div>
         </v-card-title>
-
+        <v-card-title primary-title>
+          <div>
+            <div v-if="shout" >id: {{ shout }}</div>
+          </div>
+        </v-card-title>
         <v-card-actions>
           <v-btn flat color="orange" @click="restart()">Clear</v-btn>
         </v-card-actions>
@@ -46,10 +45,10 @@ import axios from 'axios';
 export default {
   methods: {
     restart() {
-      location.reload();
+      this.url = '';
     },
     getshouten() {
-      axios.get(this.shoutenURL)
+      axios.post(this.shoutenURL)
         .then((response) => {
           this.shout = response;
         });
