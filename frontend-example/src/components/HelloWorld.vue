@@ -21,9 +21,15 @@
         </v-card-text>
         <v-card-title primary-title>
           <div>
-            <div>{{ shout }}</div>
+            <div>id: {{ shout }}</div>
           </div>
         </v-card-title>
+                <v-card-title primary-title>
+          <div>
+            <div>url: {{ url }}</div>
+          </div>
+        </v-card-title>
+
         <v-card-actions>
           <v-btn flat color="orange" @click="restart()">Clear</v-btn>
         </v-card-actions>
@@ -50,7 +56,7 @@ export default {
     },
   },
   data: () => ({
-    apishouten: 'http://shoutlink.herokuapp.com/api/create',
+    apishouten: 'http://shoutlink.herokuapp.com/api/create?url=',
     apiopen: 'http://shoutlink.herokuapp.com/api/open',
     url: '',
     shout: '',
@@ -58,7 +64,7 @@ export default {
   computed:
     {
       shoutenURL() {
-        return this.apishouten.concat('?url=', this.url);
+        return this.apishouten.concat(this.url);
       },
       openURL() {
         return this.concat('/', this.shout);
